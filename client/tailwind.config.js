@@ -2,7 +2,27 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        "7h": "7vh",
+        "10h": "10vh",
+        "50h": "50vh",
+      },
+
+      width: {
+        "20w": "20vw",
+        "30w": "30vw",
+        "70w": "70w",
+      },
+      minWidth: {
+        250: "250px",
+      },
+      backgroundColor: {
+        lightGray: "#FAFBFC",
+        darkGray: "#DCDFE4",
+        lightBlue: "#E6EFFC",
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
