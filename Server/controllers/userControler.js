@@ -51,14 +51,13 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
-
-  const user = await User.findOne({ email });
-  // console.log(email, password);
-  // console.log(await bcrypt.compare(password, user.password));
+  console.log(req.body);
+  const user = await User.findOne({ email, role });
   console.log(user);
   if (user) {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     console.log(user);
+
     if (isPasswordMatch) {
       res.json({
         success: true,
@@ -69,7 +68,7 @@ const loginUser = async (req, res) => {
         token: generateToken(user.id),
       });
     } else {
-      // console.log(user);
+      // console.log(us er);
       res
         .status(400)
         .json({ success: false, message: "Password does not match" });
@@ -78,7 +77,7 @@ const loginUser = async (req, res) => {
   } else {
     res.status(400).json({
       success: false,
-      message: "User does not exist,please make an account first",
+      message: "Incorrect email, password, role",
     });
   }
 };

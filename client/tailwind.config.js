@@ -8,7 +8,6 @@ export default {
         "10h": "10vh",
         "50h": "50vh",
       },
-
       width: {
         "20w": "20vw",
         "30w": "30vw",
@@ -21,6 +20,7 @@ export default {
         lightGray: "#FAFBFC",
         darkGray: "#DCDFE4",
         lightBlue: "#E6EFFC",
+        darkBlue: "#0052CC",
       },
     },
   },

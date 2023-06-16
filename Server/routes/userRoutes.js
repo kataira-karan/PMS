@@ -11,7 +11,7 @@ const {
 } = require("../controllers/userControler");
 
 userRouter.post("/registeruser", registerUser);
-userRouter.get("/login", loginUser);
+userRouter.post("/login", loginUser);
 userRouter.get("/getMe", protect, getMe);
 
 module.exports = userRouter;
