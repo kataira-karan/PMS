@@ -12,9 +12,11 @@ export default {
         "20w": "20vw",
         "30w": "30vw",
         "70w": "70w",
+        "50 w": "50vw",
       },
       minWidth: {
         250: "250px",
+        396: "396px",
       },
       backgroundColor: {
         lightGray: "#FAFBFC",

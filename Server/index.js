@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
 // routes
 app.use("/users", require("./routes/userRoutes"));
 app.use("/project", require("./routes/projectRoutes"));
+app.use("/project/issue", require("./routes/issueRoutes"));
 
 // Start the server
 app.listen(port, () => {

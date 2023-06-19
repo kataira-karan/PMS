@@ -1,13 +1,25 @@
-import React from 'react'
+import {React , useContext} from 'react'
+import { UserInfoContext } from '../Context/UserContext'
+import { useEffect } from 'react';
 
 const DashBoard = () => {
+
+  const {currentUser} = useContext(UserInfoContext);
+
+  useEffect(() => {
+
+    console.log(currentUser)
+
+  }, []);
+
   return (
      <div className='w-70w h-screen py-16 px-8'>
+
      {/* still remain in mobile view bt column view only */}
      <div className='flex'>
      <span className='flex flex-row text-3xl font-bold mr-8 '>Project Board</span>
        <div className=' translate-x-2 border border-black drop-shadow-2xl flex center-items justify-center text-white rounded-full p-2 bg-red-800 '>
-         KK
+         {currentUser ? currentUser.name : "No name"}
        </div>
     
      </div>

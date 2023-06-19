@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Project = require("./ProjectMode");
 
 const userSchema = mongoose.Schema(
   {
@@ -22,6 +23,7 @@ const userSchema = mongoose.Schema(
       required: [true, "Email can not be empty"],
       unique: true,
     },
+    projects: [],
     password: {
       type: String,
       required: [true, "Password can not be empty"],

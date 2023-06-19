@@ -20,6 +20,7 @@ const projectSchema = new Schema({
       required: true,
     },
   ],
+  issues: [],
   key: {
     type: String,
     maxlength: 4,

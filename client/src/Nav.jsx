@@ -3,7 +3,7 @@ import { MdCircleNotifications } from "react-icons/md";
 import { BsArrowDownShort } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
 import { gsap } from 'gsap';
-
+import ProjectModel from './ProjectModel';
 const Nav = () => {
 
     const OpenDropdown = (dropDownType) =>{
@@ -22,14 +22,16 @@ const Nav = () => {
     }
 
     const openModel = () =>{
-
         document.getElementById("creat-project-model").showModal()
+    }
 
-
+    const openCreatProjectModel = () =>{
+        document.getElementById("project-model").showModal()
     }
 
   return (
     <div className='hidden md:block'>
+        <ProjectModel></ProjectModel>
         <div className='flex justify-between w-screen h-7h border-b-2 px-8'>
         {/* this will contain logo and left side list */}
         <ul className='flex items-center gap-8  '>
@@ -67,7 +69,7 @@ const Nav = () => {
                         <li>Demo</li>
                         <li>Demo</li>
                         <li>Demo</li>
-                        <li>Demo</li>
+                        <li onClick={openCreatProjectModel}>Create Project </li>
                     </ul>
 
                    </li>   
