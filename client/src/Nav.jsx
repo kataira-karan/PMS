@@ -1,10 +1,20 @@
-import React from 'react'
+import {React , useContext} from 'react'
 import { MdCircleNotifications } from "react-icons/md";
 import { BsArrowDownShort } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
 import { gsap } from 'gsap';
 import ProjectModel from './ProjectModel';
+import { UserInfoContext } from './Context/UserContext';
+import SideBarOption from './Home/SideBarOption';
+import SideBar from './Home/SideBar';
+import { IoIosCreate } from "react-icons/io";
+import { ProjectContext } from './Context/ProjectContext';
+
+
 const Nav = () => {
+
+    const {currentUser} = useContext(UserInfoContext);
+    const {currentProject, changeCurrentProject} = useContext(ProjectContext)
 
     const OpenDropdown = (dropDownType) =>{
         gsap.to('#workDropDown' , {display : "none"})
@@ -16,8 +26,7 @@ const Nav = () => {
             return
             
         }else{
-            console.log("dropdwon")
-            gsap.to(`#${dropDownType}` ,  { display : "block" ,delay : 1 , })
+            gsap.to(`#${dropDownType}` ,  { display : "block" , height : "auto" , duration: 1})
         }
     }
 
@@ -49,7 +58,7 @@ const Nav = () => {
                         <IoIosArrowDown></IoIosArrowDown> 
                    </span> 
                     
-                    <ul id="workDropDown" className='hidden p-4 font-medium      absolute min-w-fit  w-full top-12 z-10 bg-darkGray shadow-lg rounded-md'>
+                    <ul id="workDropDown" className='hidden p-4 font-medium  min-w-320    absolute   w-full top-12 z-10  bg-white  shadow-2xl rounded-md'>
                         <li className='my-2 '>Demo</li>
                         <li>Demo</li>
                         <li>Demo</li>
@@ -65,11 +74,25 @@ const Nav = () => {
                         <IoIosArrowDown></IoIosArrowDown> 
                    </span> 
                     
-                    <ul id="projectDropDown" className='hidden p-4 absolute min-w-fit  w-full top-12 z-10 bg-darkGray shadow-lg rounded-md'>
-                        <li>Demo</li>
-                        <li>Demo</li>
-                        <li>Demo</li>
-                        <li onClick={openCreatProjectModel}>Create Project </li>
+                    <ul id="projectDropDown" className='hidden h-0 p-4 absolute   min-w-320 top-12 z-10 bg-white  shadow-2xl   rounded-md'>
+
+                        {
+                            currentUser? 
+                                currentUser.projects.map((project,index)=>{
+                                    return <li className='' key={project}  onClick={ () =>changeCurrentProject(project)}>  
+                                              <SideBarOption id={index} text={project.name}>
+                                               </SideBarOption>  
+                                       </li>
+                                })
+                            :
+                            null
+                        }
+
+                        <hr></hr>
+
+                        <li onClick={openCreatProjectModel}>
+                            <SideBarOption text="Create Project" icon={<IoIosCreate></IoIosCreate>}>  </SideBarOption>    
+                        </li>
                     </ul>
 
                    </li>   
@@ -80,7 +103,7 @@ const Nav = () => {
                    <span className=''> 
                         <IoIosArrowDown></IoIosArrowDown> 
                    </span> 
-                    <ul id="teamsDropDown" className='hidden p-4 absolute min-w-fit  w-full top-12 z-10 bg-darkGray shadow-lg rounded-md'>
+                    <ul id="teamsDropDown" className='hidden p-4 absolute min-w-320  w-full  top-12 z-10 bg- bg-white  shadow-2xlrounded-md'>
                         <li>Demo</li>
                         <li>Demo</li>
                         <li>Demo</li>
@@ -102,11 +125,9 @@ const Nav = () => {
         </ul>
 
          {/* this will contain user profile option and sign out option */}
-         <ul className='flex items-center'>
-            <li> <MdCircleNotifications></MdCircleNotifications>    </li>
-            <li> User Profile</li>
-            
-
+         <ul className='flex items-center gap-4 font-bold '>
+            <li className='text-2xl'> <MdCircleNotifications></MdCircleNotifications>    </li>
+            <li> {currentUser.name}</li>
         </ul>
 
         </div>

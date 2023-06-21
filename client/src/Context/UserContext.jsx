@@ -19,11 +19,13 @@ const loginUser =async (e , user) => {
      });  
      // if the log in is success store the credentials in local storage
    if(resUser.data.success){
-     console.log("Login Success")
-     localStorage.setItem("user" , JSON.stringify( resUser.data ))
-    setcurrentUser(localStorage.getItem('user') ? JSON.parse(localStorage.getItem("user")) : null)+
+   
+    localStorage.setItem("user" , JSON.stringify( resUser.data.user ))
+    localStorage.setItem("token" , JSON.stringify(resUser.data.token))
+    localStorage.setItem("currentProject" , JSON.stringify(resUser.data.user.projects[0]))
+    setcurrentUser(localStorage.getItem('user') ? JSON.parse(localStorage.getItem("user")) : null)
     console.log(currentUser)
-     window.location.href = "/" 
+    window.location.href = "/" 
    }else{
      seterror("Error")
    }
@@ -33,8 +35,10 @@ const loginUser =async (e , user) => {
   }
 } 
 
+
+
   useEffect(() => {
-      console.log(currentUser)
+      // console.log(currentUser)
   }, [currentUser]);
 
   return (

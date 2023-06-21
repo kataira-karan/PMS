@@ -1,34 +1,35 @@
-import axios from 'axios';
-import React from 'react'
+import axios   from 'axios';
+import {React , useContext} from 'react'
 import { useState } from 'react'
+import { UserInfoContext } from './Context/UserContext';
+
 
 const ProjectModel = () => {
 
   const [project, setproject] = useState({name : " "  , key : ""});
+  const {currentUser , setcurrentUser} = useContext(UserInfoContext);
 
   const creatProject =async (e) =>{
-
-
     e.preventDefault()
-
-    console.log(project)
-    console.log(JSON.parse(localStorage.getItem("login")).token)
 
     try{
       const data = await axios.post("http://localhost:5000/project/createProject", 
       JSON.stringify({name :  project.name , key : project.key , teamMembers : [] , issues : []}),
       {
         headers : { "Content-Type" : "application/json" , 
-        authorization : "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODFmMjdkNGM1NzE2OGY3YmY1NjU5NyIsImlhdCI6MTY4NzA0NDQ3MywiZXhwIjoxNjg5NjM2NDczfQ.nbX4XvMlGj_a9UI89J_L1eOBCJ5lfymRc4DeKnRzqhI"
+        authorization : "Bearer " + JSON.parse(localStorage.getItem("token"))
        },
       }
     )
-      console.log(data)
-    if(data.successs){
-      console.log(data)
+    console.log(data)
+    if(data.data.success){ 
+      console.log(data);
+      localStorage.setItem("user" , JSON.stringify(data.data.user))
+      setcurrentUser(data.data.user)
+      window.location.reload();
+
     } 
     }catch(error){
-
       console.log(error)
 
     }

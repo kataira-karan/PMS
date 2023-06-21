@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ProjectHeader from './ProjectHeader'
 import SideBarOption from './SideBarOption'
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaTasks } from "react-icons/fa";
+import { UserInfoContext } from '../Context/UserContext';
 import { IoIosSettings } from "react-icons/io";
 import SideBar from './SideBar';
 import DashBoard from './DashBoard';
@@ -10,10 +11,16 @@ import Nav from '../Nav';
 
 
 const Home = () => {
-  return (
 
+  const {currentUser} = useContext(UserInfoContext);
+
+  return (
+    
     <>
-        <Nav></Nav>
+      {
+        currentUser 
+        ?
+        <div>
         <div className='relative h-screen'> 
             <div className='h-10h bg-blue-500 flex  justify-between  items-center px-4 md:hidden '>
               <span>
@@ -41,12 +48,17 @@ const Home = () => {
             </div>
 
             <div className='flex w-screen h-screen'>
-            <SideBar></SideBar>
             <DashBoard></DashBoard>
 
             </div >
       </div>
+    </div> 
+    :"Proteced Routes only"
+
+      }
+    
     </>
+
 
   )
 }

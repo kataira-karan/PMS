@@ -1,14 +1,23 @@
 import {React , useContext} from 'react'
 import { UserInfoContext } from '../Context/UserContext'
 import { useEffect } from 'react';
+import { ProjectContext } from '../Context/ProjectContext';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 
 const DashBoard = () => {
 
   const {currentUser} = useContext(UserInfoContext);
+  const {currentProject} = useContext(ProjectContext)
 
   useEffect(() => {
 
-    console.log(currentUser)
+    // console.log(currentUser)
 
   }, []);
 
@@ -25,6 +34,11 @@ const DashBoard = () => {
      </div>
 
      <div className='mt-8'>
+
+        <>
+        
+        </>
+
        <div className='h-50h bg-lightGray rounded-lg p-4'>
            <span className=''>  To Do  </span>
        </div>

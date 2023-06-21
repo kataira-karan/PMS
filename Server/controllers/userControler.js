@@ -60,11 +60,14 @@ const loginUser = async (req, res) => {
 
     if (isPasswordMatch) {
       res.json({
+        user: {
+          _id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          projects: user.projects,
+        },
         success: true,
-        _id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
         token: generateToken(user.id),
       });
     } else {
