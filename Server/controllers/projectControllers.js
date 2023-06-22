@@ -37,7 +37,7 @@ const createProject = async (req, res) => {
   });
 
   if (currUser) {
-    currUser.projects = [...currUser.projects, newProject];
+    currUser.projects = [...currUser.projects, newProject._id];
     await currUser.save();
     console.log(currUser);
     res.status(200).json({
@@ -52,4 +52,15 @@ const createProject = async (req, res) => {
   }
 };
 
-module.exports = { createProject };
+const getUserProjects = async (req, res) => {
+  // find user and get all the projects
+  const user = await User.findOne(req.user._id).populate("projects");
+  console.log("getting all user data");
+  console.log(user);
+
+  if (user) {
+    res.status(200).json({ projects: user });
+  }
+};
+
+module.exports = { createProject, getUserProjects };

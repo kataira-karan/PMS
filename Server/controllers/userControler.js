@@ -94,10 +94,10 @@ const generateToken = (id) => {
 // @route      GET /users/getme
 // @access     Private
 const getMe = asyncHandler(async (req, res) => {
-  const { name, email, role } = await User.findById(req.user.id);
-  console.log(name, email, role);
-
-  res.json({ message: "User data ", name, email, role });
+  const user = await User.findById(req.user.id)
+    .populate("projects")
+    .select("-password");
+  res.json({ message: "User data ", user });
 });
 
 module.exports = { registerUser, loginUser, getMe };

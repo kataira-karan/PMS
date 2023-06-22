@@ -1,4 +1,4 @@
-import {React , useContext} from 'react'
+import {React , useContext, useEffect} from 'react'
 import { MdCircleNotifications } from "react-icons/md";
 import { BsArrowDownShort } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
@@ -9,6 +9,7 @@ import SideBarOption from './Home/SideBarOption';
 import SideBar from './Home/SideBar';
 import { IoIosCreate } from "react-icons/io";
 import { ProjectContext } from './Context/ProjectContext';
+import {getData} from "./Requests/getRequest"
 
 
 const Nav = () => {
@@ -16,7 +17,7 @@ const Nav = () => {
     const {currentUser} = useContext(UserInfoContext);
     const {currentProject, changeCurrentProject} = useContext(ProjectContext)
 
-    const OpenDropdown = (dropDownType) =>{
+    const OpenDropdown = (dropDownType) => {
         gsap.to('#workDropDown' , {display : "none"})
         gsap.to('#projectDropDown' , {display : "none"})
         gsap.to('#teamsDropDown' , {display : "none"})      
@@ -30,6 +31,15 @@ const Nav = () => {
         }
     }
 
+    const getProjects =  () =>{
+        const project =  getData("http://localhost:5000/project/getUserProjects");
+
+
+    }
+
+   
+
+
     const openModel = () =>{
         document.getElementById("creat-project-model").showModal()
     }
@@ -37,9 +47,17 @@ const Nav = () => {
     const openCreatProjectModel = () =>{
         document.getElementById("project-model").showModal()
     }
+    useEffect(() => {
+        getProjects()
+    }, []);
 
   return (
-    <div className='hidden md:block'>
+
+    <>
+        {
+            currentUser 
+            ?
+            <div className='hidden md:block'>
         <ProjectModel></ProjectModel>
         <div className='flex justify-between w-screen h-7h border-b-2 px-8'>
         {/* this will contain logo and left side list */}
@@ -133,7 +151,13 @@ const Nav = () => {
         </div>
 
        
-    </div>
+    </div> : 
+    ""
+        }
+    
+    </>
+    
+    
   )
 }
 

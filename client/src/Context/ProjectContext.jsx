@@ -7,6 +7,11 @@ export function ProjectProvider({children}){
 
     const [currentProject, setcurrentProject] = useState(localStorage.getItem("currentProject") ? JSON.parse(localStorage.getItem("currentProject")) : null);
 
+   
+
+    useEffect(() => {
+    }, []);
+
     const changeCurrentProject = (project) =>{
 
         setcurrentProject(project)

@@ -8,19 +8,24 @@ import { BiHomeAlt } from "react-icons/bi";
 import { ProjectContext } from '../Context/ProjectContext';
 import { useContext } from 'react';
 import { useEffect } from 'react';
+import { UserInfoContext } from '../Context/UserContext';
 
 const SideBar = () => {
 
   const {currentProject} = useContext(ProjectContext);
+  const {currentUser} = useContext(UserInfoContext);
 
   useEffect(() => {
-    console.log(currentProject)
   }, []);
 
   return (
     <>
-        {/* sidebar will hide in mobile view */}
-        <div className='hidden md:flex min-w-250 md:flex-col py-16 px-8 md:20w lg:w-1/6 md:bg-lightGray ' >
+      {
+        currentUser
+        ?
+        <>
+         {/* sidebar will hide in mobile view */}
+         <div className='hidden md:flex min-w-250 md:flex-col py-16 px-8 md:20w lg:w-1/6 md:bg-lightGray ' >
             {/* HHEADER OF PROJECT */}
             <ProjectHeader projectName={currentProject.name} ></ProjectHeader>
             <SideBarOption text="Home" icon={<BiHomeAlt></BiHomeAlt>} ></SideBarOption>
@@ -28,6 +33,11 @@ const SideBar = () => {
             <SideBarOption text="Backlog" icon={<FaTasks></FaTasks>} ></SideBarOption>
             <SideBarOption text="Setting" icon={<IoIosSettings></IoIosSettings>} ></SideBarOption>    
         </div>
+        </>
+        :
+        null
+      }
+       
     </>
   
   )
