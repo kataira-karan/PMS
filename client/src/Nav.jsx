@@ -10,12 +10,20 @@ import SideBar from './Home/SideBar';
 import { IoIosCreate } from "react-icons/io";
 import { ProjectContext } from './Context/ProjectContext';
 import {getData} from "./Requests/getRequest"
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 const Nav = () => {
-
+    let history = useHistory()
     const {currentUser} = useContext(UserInfoContext);
-    const {currentProject, changeCurrentProject} = useContext(ProjectContext)
+    const {currentProject, changeCurrentProject , setcurrentProject} = useContext(ProjectContext)
+    const [allProjects, setallProjects] = useState(null);
+
+    // all you have to do is send a req to server when you change the project
+    // fetch new project
+    // store it somewhere
+    // use setCurrentProject context to set the project
 
     const OpenDropdown = (dropDownType) => {
         gsap.to('#workDropDown' , {display : "none"})
@@ -32,13 +40,12 @@ const Nav = () => {
     }
 
     const getProjects =  () =>{
-        const project =  getData("http://localhost:5000/project/getUserProjects");
-
+        const projects =  getData("http://localhost:5000/project/getUserProjects").then((data)=>{
+            setallProjects(data.data.projects)
+            
+    });
 
     }
-
-   
-
 
     const openModel = () =>{
         document.getElementById("creat-project-model").showModal()
@@ -47,6 +54,17 @@ const Nav = () => {
     const openCreatProjectModel = () =>{
         document.getElementById("project-model").showModal()
     }
+
+    const getProjectById = async (project) =>{
+
+        const d = getData(`http://localhost:5000/project/getProject/${project._id}`).then((data)=>{
+            console.log(data);
+            setcurrentProject(data.data.project)
+            localStorage.setItem("currentProject" , JSON.stringify(data.data.project))
+            history.push(`/${project.key}/backlog`)
+        });
+    }
+
     useEffect(() => {
         getProjects()
     }, []);
@@ -95,12 +113,11 @@ const Nav = () => {
                     <ul id="projectDropDown" className='hidden h-0 p-4 absolute   min-w-320 top-12 z-10 bg-white  shadow-2xl   rounded-md'>
 
                         {
-                            currentUser? 
-                                currentUser.projects.map((project,index)=>{
-                                    return <li className='' key={project}  onClick={ () =>changeCurrentProject(project)}>  
-                                              <SideBarOption id={index} text={project.name}>
-                                               </SideBarOption>  
-                                       </li>
+                            allProjects? 
+                            allProjects.map((project,index)=>{
+                                    return <li className='' key={project.key}  onClick={ () =>getProjectById(project)}>  
+                                              {project.name} 
+                                       </li>    
                                 })
                             :
                             null

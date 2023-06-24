@@ -15,12 +15,7 @@ const DashBoard = () => {
   const {currentUser} = useContext(UserInfoContext);
   const {currentProject} = useContext(ProjectContext)
 
-  useEffect(() => {
-
-    // console.log(currentUser)
-
-  }, []);
-
+ 
   return (
      <div className='w-70w h-screen py-16 px-8'>
 

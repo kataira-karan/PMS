@@ -4,6 +4,7 @@ const projectRoutes = express.Router();
 const {
   createProject,
   getUserProjects,
+  getProject,
 } = require("../controllers/projectControllers");
 const { protect } = require("../authMiddleware/authMiddleware");
 
@@ -11,5 +12,6 @@ const { protect } = require("../authMiddleware/authMiddleware");
 
 projectRoutes.post("/createProject", protect, createProject);
 projectRoutes.get("/getUserProjects", protect, getUserProjects);
+projectRoutes.get("/getProject/:id", protect, getProject);
 
 module.exports = projectRoutes;

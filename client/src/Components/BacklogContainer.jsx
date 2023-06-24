@@ -4,14 +4,24 @@ import { ProjectContext } from '../Context/ProjectContext';
 import { UserInfoContext } from '../Context/UserContext';
 import CraeteIssueForm from './CraeteIssueForm';
 import { gsap } from 'gsap';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const BacklogContainer = (props) => {
 
-    const {isSprint} = props;
+
+    const {isSprint , index , isActive} = props;
+    const [isDisplay, setisDisplay] = useState(isActive);
     const {currentProject} = useContext(ProjectContext);
 
 
-    const closeBacklogContainer = () =>{
+
+    const closeBacklogContainer = (e) =>{
+        console.log("Closing Contanier")
+        console.log(e); 
+        setisDisplay(!isDisplay);
+
+        
     }
 
     const dragStarted = (e,issue )=>{
@@ -30,9 +40,14 @@ const BacklogContainer = (props) => {
         console.log("dragging Over")
     }
 
+    useEffect(() => {
+        localStorage.setItem("currentProject" ,JSON.stringify(currentProject))
+        console.log(currentProject)
+    }, []);
+
   return (
-    <div onClick={closeBacklogContainer} className='bg-lightGray rounded-xl py-2 px-4 w-70'>
-        <div className='flex justify-between rounded-xl py-2 px-4 hover:cursor-pointer hover:bg-darkGray'>
+    <div  className='bg-darkGray rounded-xl py-2 my-4 px-4 w-full '>
+        <div onClick={closeBacklogContainer} className='flex justify-between rounded-xl py-2 px-4 hover:cursor-pointer hover:bg-darkGray'>
             <div className='flex items-center gap-6'>
                 <span> <IoIosArrowDown></IoIosArrowDown> </span>
                 <span className='font-bold'>  {currentProject.name} / {isSprint ? "Sprint" : "Backlog"}   </span>
@@ -40,7 +55,7 @@ const BacklogContainer = (props) => {
             </div>
 
             <div className='flex items-center gap-2'>
-                <span className='bg-darkGray rounded p-2'> 5 </span>
+                <span className='bg-lightGray rounded p-2'> 5 </span>
                 <span className='bg-darkBlue rounded p-2 text-white'> 3 </span>
                 <span className='bg-green-500 rounded p-2 text-white'> 2 </span>
                 {
@@ -52,31 +67,52 @@ const BacklogContainer = (props) => {
                 }
             </div>
         </div>
-        <div id="dynamic-backlog">
+        {
+            isDisplay 
+            ?   
+            <div   id="dynamic-backlog">
         <div className='mt-8 min-h-16'>
-                You can start a sprint here,
-                You can add an issue using drag and drop from the backlog section or you can just create an issue here.
+                
                 {/* if sprint has issue , this is the place where it is going to be*/}
 
-                <div draggable className='bg-red-200 h-12' onDragOver={(e)=> dragOver(e)} onDrop={(e)=>dragDropped(e)} >
+                <div draggable className='bg-lightGray rounded-lg my-4 ' onDragOver={(e)=> dragOver(e)} onDrop={(e)=>dragDropped(e)} >
+                    {/* if sprint doesn not have any task use this line */}
+                    <span className='p-4 font-normal text-sm text-gray-400  flex  justify-center text-center items-center w-full '>
+                        You can start a sprint here,
+                        You can add an issue using drag and drop from the backlog section or you can just create an issue here.
+
+                    </span>
+                        
                 </div>
         </div>
        
        <CraeteIssueForm></CraeteIssueForm>
-        
         {
-            !isSprint 
+            !isSprint   
             ?
             <div>
-                <div draggable onDragStart={(e)=> dragStarted(e,"issue") } className='w-full bg-white p-2 my-2 rounded-lg hover:cursor-pointer'> Task1 </div>
-                <div className='w-full bg-white p-2 my-2 rounded-lg hover:cursor-pointer'> Task1 </div>
-                <div className='w-full bg-white p-2 my-2 rounded-lg hover:cursor-pointer'> Task1 </div>
+                {
+                    currentProject ?
+                      currentProject.issues.map((issue) =>{
+                        return (
+                            <div draggable onDragStart={(e)=> dragStarted(e,"issue") } className='w-full bg-white p-2 my-2 rounded-lg hover:cursor-pointer'> {issue.name} </div>
+                        )
+
+                      })
+                    :
+                    null
+                }
             </div>
             :
              null
         }
         
-        </div>
+        </div>             
+            :
+            null
+
+        }
+        
         
 
     </div>

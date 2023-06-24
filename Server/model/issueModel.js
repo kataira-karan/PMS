@@ -7,9 +7,8 @@ const issueSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
   },
-  assignee: {
+  assigneeTo: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
@@ -25,6 +24,10 @@ const issueSchema = new mongoose.Schema({
       ref: "Issue",
     },
   ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Issue = mongoose.model("Issue", issueSchema);

@@ -13,6 +13,7 @@ export default {
         "30w": "30vw",
         "70w": "70w",
         "50w": "50vw",
+        800: "800px",
       },
       minWidth: {
         250: "250px",

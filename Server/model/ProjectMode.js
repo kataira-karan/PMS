@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("./userModel");
+const Issue = require("./issueModel");
 
 const Schema = mongoose.Schema;
 
@@ -20,7 +21,12 @@ const projectSchema = new Schema({
       required: true,
     },
   ],
-  issues: [],
+  issues: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Issue",
+    },
+  ],
   key: {
     type: String,
     maxlength: 4,

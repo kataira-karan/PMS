@@ -1,27 +1,35 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { gsap } from 'gsap'
 import { Timeline } from 'gsap/gsap-core'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
+import { ProjectContext } from '../Context/ProjectContext'
+import { postData } from '../Requests/postRequest'
 
 const CraeteIssueForm = () => {
 
     const [isAddIssueFormOpen, setisAddIssueFormOpen] = useState(false);
-    const [issue, setissue] = useState({});
+    const {currentProject , changeCurrentProject} = useContext(ProjectContext);
+    const [issue, setissue] = useState("");
+
 
     const openCreateIssueForm = () =>{
         setisAddIssueFormOpen(true)
     }
 
-    const addIssueToBacklogs =async (e) =>{
+    const addIssueToBacklogs = (e) =>{
+        e.preventDefault()
+        let postedIssue = postData(`http://localhost:5000/project/issue/${currentProject.key}/addissue` ,{issueName : issue}).then(data=>{
+            console.log(data.data.project)
+            // changeCurrentProject(data.data.project)
+        })
 
-        // let issue = await axios.post("")
-        
-
+        // setissue("")
     }
 
     useEffect(() => {
+        
     }, [isAddIssueFormOpen]);
 
   return (
@@ -31,7 +39,7 @@ const CraeteIssueForm = () => {
             isAddIssueFormOpen  ?   
             <form id="create-issue-form" className='flex gap-2 '>
             <div className="mt-2 w-11/12">
-                    <input id="text"  name="issue" type="text" autoComplete="text" required className=" px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    <input id="text" value={issue} onChange={(e)=> setissue(e.target.value)} name="issue" type="text" autoComplete="text" required className=" px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
                 <button type="button" onClick={(e)=> addIssueToBacklogs(e)} className="flex w-1/5 justify-center rounded-md bg-indigo-600 px-2 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Issue</button>
             </form>

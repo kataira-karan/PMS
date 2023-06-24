@@ -53,10 +53,8 @@ const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
   console.log(req.body);
   const user = await User.findOne({ email, role });
-  console.log(user);
   if (user) {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
-    console.log(user);
 
     if (isPasswordMatch) {
       res.json({
@@ -71,11 +69,9 @@ const loginUser = async (req, res) => {
         token: generateToken(user.id),
       });
     } else {
-      // console.log(us er);
       res
         .status(400)
         .json({ success: false, message: "Password does not match" });
-      //   throw new Error("Invalid Credentials");
     }
   } else {
     res.status(400).json({
