@@ -7,8 +7,9 @@ import axios from 'axios'
 import { ProjectContext } from '../Context/ProjectContext'
 import { postData } from '../Requests/postRequest'
 
-const CraeteIssueForm = () => {
+const CraeteIssueForm = (props) => {
 
+    const { sprint  } = props;
     const [isAddIssueFormOpen, setisAddIssueFormOpen] = useState(false);
     const {currentProject , changeCurrentProject} = useContext(ProjectContext);
     const [issue, setissue] = useState("");
@@ -18,18 +19,37 @@ const CraeteIssueForm = () => {
         setisAddIssueFormOpen(true)
     }
 
+    // ADDING ISSUE TO BACKLOG
     const addIssueToBacklogs = (e) =>{
         e.preventDefault()
-        let postedIssue = postData(`http://localhost:5000/project/issue/${currentProject.key}/addissue` ,{issueName : issue}).then(data=>{
-            console.log(data.data.project)
-            // changeCurrentProject(data.data.project)
-        })
 
-        // setissue("")
+        let url = sprint
+                  ?
+                  `http://localhost:5000/project/sprint/${currentProject._id}/${sprint._id}/addIssueToSprint`
+                  :
+                  `http://localhost:5000/project/issue/${currentProject.key}/addissue`
+
+        !sprint
+        ?
+        // IF WE ARE ADDING AN ISSUE TO BACKLOGS
+        postData(`http://localhost:5000/project/issue/${currentProject.key}/addissue` ,{issueName : issue }).then(data=>{
+            console.log(data.data.project)
+            changeCurrentProject(data.data.project)
+            setissue("")
+        })
+        :
+        // IF WE ARE ADDING AN ISSUE TO  A SPRINT WE SEND SPRINT ID TO BACKEND
+        postData(`http://localhost:5000/project/sprint/${currentProject._id}/${sprint._id}/addIssueToSprint` ,{issueName : issue }).then(data=>{
+            console.log(data.data.project)
+            changeCurrentProject(data.data.project)
+            setissue("")
+        })
+ 
     }
 
+
     useEffect(() => {
-        
+        console.log(sprint)
     }, [isAddIssueFormOpen]);
 
   return (
@@ -37,7 +57,7 @@ const CraeteIssueForm = () => {
 
         {
             isAddIssueFormOpen  ?   
-            <form id="create-issue-form" className='flex gap-2 '>
+            <form id="create-issue-form" onSubmit={addIssueToBacklogs} className='flex gap-2 '>
             <div className="mt-2 w-11/12">
                     <input id="text" value={issue} onChange={(e)=> setissue(e.target.value)} name="issue" type="text" autoComplete="text" required className=" px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>

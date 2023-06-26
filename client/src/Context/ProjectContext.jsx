@@ -12,17 +12,11 @@ export function ProjectProvider({children}){
     useEffect(() => {
     }, []);
 
-    const changeCurrentProject =async (project) =>{
+    const changeCurrentProject = (project) =>{
         console.log(project)
-        setcurrentProject(project)
-        const pro = await getData(`http://localhost:5000/project/getProject/${project._id}`).then((data)=>{
-            setcurrentProject(data.data.project)
-            console.log(data.data.project);
-        }).then(()=>{
-            console.log("LOL")
-            history.push(`/${project.key}/backlogs`);
-            })
-        
+         localStorage.setItem("currentProject", JSON.stringify(project))
+         setcurrentProject(project)
+
     
         // window.location.href  = `/${project.key}/backlogs`
     }

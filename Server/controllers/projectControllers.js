@@ -3,6 +3,7 @@
 // @access     Private
 
 const Project = require("../model/ProjectMode");
+const { populate } = require("../model/issueModel");
 const User = require("../model/userModel");
 
 const createProject = async (req, res) => {
@@ -70,7 +71,13 @@ const getProject = async (req, res) => {
   const { id } = req.params;
   console.log(id);
   try {
-    let project = await Project.findOne({ _id: id }).populate("issues");
+    let project = await Project.findOne({ _id: id })
+      .populate("issues")
+      .populate({
+        path: "sprints",
+        populate: { path: "issues", module: "Issue" },
+      });
+
     console.log(project);
     if (project) {
       res.status(200).json({ success: true, project });

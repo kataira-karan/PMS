@@ -31,5 +31,8 @@ const issueSchema = new mongoose.Schema({
 });
 
 const Issue = mongoose.model("Issue", issueSchema);
+// Issue.watch().on("change", (data) => console.log(data)
+
+//   );
 
 module.exports = Issue;

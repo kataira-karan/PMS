@@ -9,8 +9,8 @@ const addIssue = async (req, res) => {
   //   console.log(req);
   const { projectKey } = req.params;
   const { issueName } = req.body;
-  console.log(req.params);
-  console.log(req.body);
+  // console.log(req.params);
+  // console.log(req.body);
 
   console.log("Hey Bud , adding Issue to backlog list");
 
@@ -31,10 +31,10 @@ const addIssue = async (req, res) => {
     project.save();
 
     // fetching project with populated fields
-    let p = await Project.findOne({ key: req.params.projectKey }).populate(
-      "issues"
-    );
-    console.log("pppppppppppppp", p);
+    let p = await Project.findOne({ key: req.params.projectKey })
+      .populate("issues")
+      .populate("sprints");
+
     res.status(200).json({
       success: true,
       message: "Issue added",

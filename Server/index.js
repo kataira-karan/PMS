@@ -20,10 +20,11 @@ app.get("/", (req, res) => {
   res.send("Hello User");
 });
 
-// routes
+// routess
 app.use("/users", require("./routes/userRoutes"));
 app.use("/project", require("./routes/projectRoutes"));
 app.use("/project/issue", require("./routes/issueRoutes"));
+app.use("/project/sprint", require("./routes/sprintRoutes"));
 
 // Start the server
 app.listen(port, () => {

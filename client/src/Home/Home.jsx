@@ -66,9 +66,7 @@ const Home = () => {
         <div className='relative h-screen'> 
         <Router>
             <Switch>
-              <Route exact path="/login"> 
-                <Auth></Auth>
-              </Route>  
+           
                 <div className='h-screen '>
                   <Nav></Nav>
                   <div className='flex'>
@@ -86,7 +84,13 @@ const Home = () => {
             </Switch>
           </Router>
       </div>
-    :"Proteced Routes only"
+    :<Router>
+      <Switch>
+              <Route exact path="/login"> 
+                <Auth></Auth>
+              </Route>  
+      </Switch>
+      </Router>
 
       }
        {/* menu for mobile application */}
