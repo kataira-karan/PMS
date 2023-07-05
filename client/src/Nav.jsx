@@ -19,6 +19,13 @@ const Nav = () => {
     const {currentUser} = useContext(UserInfoContext);
     const {currentProject, changeCurrentProject , setcurrentProject} = useContext(ProjectContext)
     const [allProjects, setallProjects] = useState(null);
+    
+    const logout = () =>{
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
+        localStorage.removeItem('currentProject')
+        window.location.href = "/login"
+    }
 
     // all you have to do is send a req to server when you change the project
     // fetch new project
@@ -46,15 +53,6 @@ const Nav = () => {
     });
 
     }
-
-    const openModel = () =>{
-        document.getElementById("creat-project-model").showModal()
-    }
-
-    const openCreatProjectModel = () =>{
-        document.getElementById("project-model").showModal()
-    }
-
     const getProjectById = async (project) =>{
 
         const d = getData(`http://localhost:5000/project/getProject/${project._id}`).then((data)=>{
@@ -65,6 +63,12 @@ const Nav = () => {
         });
     }
 
+
+    const openCreatProjectModel = () =>{
+        document.getElementById("project-model").showModal()
+    }
+
+   
     useEffect(() => {
         getProjects()
     }, []);
@@ -146,15 +150,11 @@ const Nav = () => {
                     </ul>
 
                    </li>   
-                  <li onClick={openModel} className='relative flex items-center p-2 gap-1 hover:cursor-pointer font-normal text-sm text-white bg-darkBlue rounded-md  ' > 
+                  <li className='relative flex items-center p-2 gap-1 hover:cursor-pointer font-normal text-sm text-white bg-darkBlue rounded-md  ' > 
                             Create Project
                    </li>
 
-                      {/*  creating dialog element */}
-                    <dialog id='creat-project-model' >
-                        Hello Sir This is dialog model
-                    </dialog>
-                 
+                
                 </ul>  
             </li>
         </ul>
@@ -163,6 +163,7 @@ const Nav = () => {
          <ul className='flex items-center gap-4 font-bold '>
             <li className='text-2xl'> <MdCircleNotifications></MdCircleNotifications>    </li>
             <li> {currentUser.name}</li>
+            <li className=" hover:cursor-pointer" onClick={logout} > Logout </li>
         </ul>
 
         </div>

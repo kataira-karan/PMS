@@ -34,6 +34,7 @@ const createProject = async (req, res) => {
     key: key,
     teamMembers: [],
     issues: [],
+    sprints: [],
     createdAt: new Date(),
   });
 

@@ -18,6 +18,10 @@ const issueSchema = new mongoose.Schema({
   sprint: {
     type: Number,
   },
+  status: {
+    type: String,
+    default: "To Do",
+  },
   childIssues: [
     {
       type: mongoose.Schema.Types.ObjectId,

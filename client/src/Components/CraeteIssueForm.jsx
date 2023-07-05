@@ -49,7 +49,6 @@ const CraeteIssueForm = (props) => {
 
 
     useEffect(() => {
-        console.log(sprint)
     }, [isAddIssueFormOpen]);
 
   return (

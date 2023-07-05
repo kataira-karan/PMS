@@ -5,6 +5,7 @@ const {
   deleteSprint,
   createSprint,
   addIssueToSrpint,
+  moveFromBacklogToSprint,
 } = require("../controllers/SprintController");
 const { protect } = require("../authMiddleware/authMiddleware");
 
@@ -18,5 +19,14 @@ sprintRoutes.post(
   protect,
   addIssueToSrpint
 );
+// FROM BACKLOGS TO SPRINT
+sprintRoutes.post(
+  "/:projectId/backlogtosprint/:sprintId/:issueId",
+  protect,
+  moveFromBacklogToSprint
+);
+// FROM SPRINT TO BACKLOG
+
+// FRON ONE SPRINT TO OTHER SPRINT
 
 module.exports = sprintRoutes;

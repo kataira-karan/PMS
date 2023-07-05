@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const postData =async (url , bodyData) =>{
     console.log(url ,bodyData)
+    
     try{
     const data = await axios.post(url , 
         JSON.stringify(bodyData) ,   
