@@ -75,4 +75,16 @@ const updateIssue = async (req, res) => {
   }
 };
 
+// @desc       Delete An Issue
+// @route      POST /project/issue/deleteIssue
+// @access     Private
+const deleteIssue = async (req, res) => {
+  console.log("Deleting An Issue");
+
+  try {
+  } catch (error) {
+    res.status(400).json({ success: false, error: error });
+  }
+};
+
 module.exports = { addIssue, updateIssue };

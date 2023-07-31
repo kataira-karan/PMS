@@ -10,6 +10,9 @@
     import { CiMenuKebab } from "react-icons/ci";
     import axios from 'axios';
     import IssueModel from './IssueModel';
+    import DeleteAlert from './DeleteAlert';
+import ListedIssue from './ListedIssue';
+    
 
     const BacklogContainer = (props) => {
 
@@ -17,6 +20,7 @@
         const {isSprint , index , isActive, sprint , issues , currentIssue , setcurrentIssue } = props;
         const [isDisplay, setisDisplay] = useState(isActive);
         const {currentProject , changeCurrentProject} = useContext(ProjectContext);
+
         
 
         const handleIssueContainer = (e) =>{
@@ -68,25 +72,23 @@
 
         }
 
-        const openModelToEditAnIssue = (issue) =>{
-            console.log("Opening Issue Model")
-            setcurrentIssue(issue)
-            document.getElementById("issue-model").showModal()
-            console.log(currentIssue)
-        }
-
 
         useEffect(() => {
+            
         }, [currentIssue]);
 
     return (
-        <div  className='bg-lightGray rounded-xl py-2 my-4 px-4 w-full '>
+        <div  className='bg-darkGray rounded-xl py-2 my-4 px-4 w-full '>
+            {
+                
+            }
+             {/* <IssueModel issue={currentIssue}></IssueModel> */}
             {/* THIS CONTAINER DISPLAY BACKLOGS AND SPRINTS DYNAMICALLY, IF isSprint true , it will disaply sprints otherwise backlogs */}
             <div  className='flex justify-between rounded-xl py-2 px-4 hover:cursor-pointer hover:bg-darkGray'>
                 <div onClick={handleIssueContainer} className='flex items-center gap-6'>
                     <span> <IoIosArrowDown></IoIosArrowDown> </span>
                     <span className='font-bold'>  {isSprint ? `Sprint ${sprint.name}` : "Backlog"}   </span>
-                    <span> ({issues.length} Issue) </span>
+                    <span> ({issues.length ? issues.length : 0  } Issue) </span>
                 </div>
 
                 <div className='flex items-center gap-2'>
@@ -115,7 +117,7 @@
                     
                     {/* if sprint has issue , this is the place where it is going to be*/}
 
-                        <div draggable className='bg-lightGray rounded-lg my-4 ' onDragOver={(e)=> dragOver(e)} onDrop={(e)=>dragDropped(e)} >
+                        <div draggable className=' rounded-lg my-4 ' onDragOver={(e)=> dragOver(e)} onDrop={(e)=>dragDropped(e)} >
                         {/* if sprint doesn not have any task use this line */}
                                         
                                         {/* DISPLAYING ALL THE ISSUES FOR THE BACKLOGS AND SPRINTS  */}
@@ -129,13 +131,12 @@
                                             :
                                         issues.map((issue, index)=>{
                                             return (
-                                                <>
-                                                <div  draggable key={index} onClick={() => openModelToEditAnIssue(issue)} onDragStart={(e)=> dragStarted(e,issue) } className='w-full text-sm pl-4 bg-white p-2 my-2 rounded-lg hover:cursor-pointer'> {issue.name} </div>
-                                                </>
+                                                <ListedIssue key={index} setcurrentIssue={setcurrentIssue} issue={issue} ></ListedIssue>
                                                 )
                                         })
                                         }
-                                                <IssueModel issue={currentIssue}></IssueModel>    
+                                        <DeleteAlert issue={currentIssue} setcurrentIssue={setcurrentIssue}  ></DeleteAlert>
+  
                     </div>
             </div>
                                         
@@ -146,7 +147,7 @@
                 ?
                 // SO IF WE ARE ADDING AN ISSUE TO A SPRINT WE NEED INFO ABOUT 
                 // IN WHICH SPRINT WE ARE ADDING ISSUE TO SO WE HAVE TO PASS SPRINT
-                <CraeteIssueForm sprint={sprint}  ></CraeteIssueForm>
+                <CraeteIssueForm sprint={sprint}    ></CraeteIssueForm>
                 :
                 // WE ARE DIRECTLY ADDING ISSUE TO BACKLOGS
                 <CraeteIssueForm sprint={sprint}></CraeteIssueForm>

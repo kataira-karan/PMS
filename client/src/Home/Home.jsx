@@ -10,6 +10,7 @@ import DashBoard from './DashBoard';
 import Nav from '../Nav';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { ProjectContext } from '../Context/ProjectContext';
 import { getData } from '../Requests/getRequest';
 import {
   BrowserRouter as Router,
@@ -28,6 +29,7 @@ import Boards from '../Pages/Boards';
 const Home = () => {
 
   const {currentUser} = useContext(UserInfoContext);
+  const { currentProject} = useContext(ProjectContext)
 
   const changeProject = () =>{
       const projects = getData("")
@@ -54,7 +56,8 @@ const Home = () => {
   useEffect(() => {
 
     // getProjects()
-
+    // console.log(currentUser)
+    // console.log(currentProject)
   }, []);
   
   return (
@@ -71,7 +74,7 @@ const Home = () => {
                   <Nav></Nav>
                   <div className='flex'>
                     <SideBar></SideBar>
-                    <div className=' w-full'> 
+                    <div className='w-full'> 
                       <Route exact path="/:projectKey/backlog">
                          <Backlogs></Backlogs>
                       </Route>

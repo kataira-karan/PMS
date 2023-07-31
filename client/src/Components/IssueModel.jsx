@@ -4,12 +4,15 @@ import { useState } from 'react';
 import { useEffect } from 'react'
 import { GrClose , GrCheckmark } from "react-icons/gr";
 import { ProjectContext } from '../Context/ProjectContext';
+import { postData } from '../Requests/postRequest';
 
 const IssueModel = ({issue}) => {
 
  const [isDescriptionFocused, setisDescriptionFocused] = useState(false);
  const [isTitleFouce, setisTitleFouce] = useState(false);
  const {currentProject} = useContext(ProjectContext);
+ const [updatedIssue, setupdatedIssue] = useState({ name: issue.name , description:issue.description, status:"" });
+ 
 
 
  const typeDescription = () =>{
@@ -18,7 +21,10 @@ const IssueModel = ({issue}) => {
  } 
 
  const closeIssueModel = () =>{
+
+    // setupdatedIssue({name: "", description:"" , status : ""})
     document.getElementById("issue-model").close()
+
  }
 
 const removeFocsueFromDescription = () =>{
@@ -46,12 +52,19 @@ const removeFocsueFromDescription = () =>{
 
  }
 
- const updateIssue = () =>{
+ const updateIssue = (e) =>{
+
+    e.preventDefault()  
+    console.log(updatedIssue)
+    postData(`http://localhost:5000/project/issue/${currentProject._id}/${issue._id}/updateIssue` ,{issue : updatedIssue} )
+    .then((res)=>{
+      console.log(res)
+    })
 
  }
 
-
   useEffect(() => {
+    console.log(issue)
   }, [issue]);
 
   return (
@@ -61,7 +74,9 @@ const removeFocsueFromDescription = () =>{
       <div className='flex justify-between items-center mt-4 '>
 
           <div className=' relative '>
-          <input  value={issue.name}  onFocus={() =>  focuseField(true)}  className='font-medium capitalize text-gray-900 hover:bg-darkGray p-2 rounded hover:ease-in ease-out duration-300 ' /> 
+          <input  value={updatedIssue.name} onChange={(e) => setupdatedIssue({...issue , name : e.target.value}) }  onFocus={() =>  focuseField(true)}  className='font-medium capitalize text-gray-900 hover:bg-darkGray p-2 rounded hover:ease-in ease-out duration-300 ' /> 
+   
+          {/* IF THE TITLE IS FOCUSED WE HAVE TO SHOW SAVE AND CANCEL OPTION */}
             {
               isTitleFouce
               ?
@@ -77,20 +92,18 @@ const removeFocsueFromDescription = () =>{
             null  
             }
             
-
+            {/* WE WILL HAVE TO CHANGE THE LOOK FOR THIS COMPONENT IN FUTURE */}
           </div>
-            <select>
-              <option> To Do </option>
-              <option> In Progress </option>
-              <option> Done </option>
+            <select value={updatedIssue.status} onChange={(e) => setupdatedIssue({...issue , status : e.target.value}) } className= 'focus:ring-blue-500 focus:border-blue-500 p-2 rounded border-none'>
+              <option value="To Do" className='bg-gray-500 p-2 rounded '> To Do </option>
+              <option value="In Progress" className='bg-blue-500 p-2'> In Progress </option>
+              <option value="Done" className='bg-green-500 p-2'> Done </option>
             </select>
-   
-        
-    
       </div>
 
       <div className='mt-8'>
-          <textarea className='mt-2 p-4 w-4/5 ' row="20" col="20"  onFocus={() =>  focuseField(false)}  placeholder='Add a description'></textarea>
+          <textarea className='mt-2 p-4 w-4/5 ' row="20" col="20" value={issue.description}  onChange={(e) => setupdatedIssue({...issue , description : e.target.value}) } onFocus={() =>  focuseField(false)}  placeholder='Add a description'></textarea>
+          {/* IF THE DESCRIPTION IS FOCUSED WE HAVE TO SHOW SAVE AND CANCEL OPTION */}
           { isDescriptionFocused ?  
               <div className='flex gap-3'>  
                  <button type="button" className="flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
@@ -101,7 +114,7 @@ const removeFocsueFromDescription = () =>{
       
       
       <div className='flex mt-4'>
-        <button type="button" onClick={updateIssue}  className="flex justify-center rounded-md w-2/12  bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+        <button type="button" onClick={(e) => updateIssue(e) }  className="flex justify-center rounded-md w-2/12  bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
         <button type="button" onClick={closeIssueModel} className="flex w-2/12 justify-center rounded-md  px-3 py-1.5 text-sm font-semibold leading-6  shadow-sm hover:bg-gray focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Cancel</button>
       </div>
       

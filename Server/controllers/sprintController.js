@@ -64,8 +64,12 @@ const addIssueToSrpint = async (req, res) => {
       sprint.save();
       console.log(sprint);
 
-      let project = Project.findOne({ _id: projectId }).populate("issues");
-      //   .populate("sprints");
+      let project = await Project.findOne({ _id: projectId })
+        .populate("issues")
+        .populate({
+          path: "sprints",
+          populate: { path: "issues", module: "Issue" },
+        });
 
       res.status(200).json({
         success: true,

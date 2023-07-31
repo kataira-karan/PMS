@@ -8,13 +8,15 @@ import { useState } from 'react';
 const Backlogs = () => {
 
   const {currentProject} = useContext(ProjectContext);
-  const [currentIssue, setcurrentIssue] = useState(currentProject.issues.length > 0 ? currentProject.issues[0]  : null);
-
+  const [currentIssue, setcurrentIssue] = useState( );
+;
   const changeCurrentIssue = (issue) =>{
     setcurrentIssue(issue)
   }
 
+
   useEffect(() => {
+    console.log(currentIssue)
   }, [currentIssue]);
 
   return (

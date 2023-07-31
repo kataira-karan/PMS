@@ -52,7 +52,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
   console.log(req.body);
-  const user = await User.findOne({ email, role });
+  const user = await User.findOne({ email, role }).populate("projects");
   if (user) {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
@@ -93,6 +93,8 @@ const getMe = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id)
     .populate("projects")
     .select("-password");
+  console.log("USER+------------------");
+  console.log(user);
   res.json({ message: "User data ", user });
 });
 

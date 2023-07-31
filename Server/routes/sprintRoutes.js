@@ -25,8 +25,12 @@ sprintRoutes.post(
   protect,
   moveFromBacklogToSprint
 );
+
 // FROM SPRINT TO BACKLOG
 
 // FRON ONE SPRINT TO OTHER SPRINT
+
+// FETCH THE CURRENT SPRINT SO THAT WE CAN SHOW IT ON BACKLOG PAGE
+sprintRoutes.get("/:projectId/:sprintId");
 
 module.exports = sprintRoutes;

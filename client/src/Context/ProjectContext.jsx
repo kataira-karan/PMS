@@ -9,6 +9,7 @@ export function ProjectProvider({children}){
 
     let history = useHistory();
     const [currentProject, setcurrentProject] = useState(localStorage.getItem("currentProject") ? JSON.parse(localStorage.getItem("currentProject")) : null);
+    
     useEffect(() => {
     }, []);
 
@@ -16,17 +17,13 @@ export function ProjectProvider({children}){
         console.log(project)
          localStorage.setItem("currentProject", JSON.stringify(project))
          setcurrentProject(project)
-
-    
         // window.location.href  = `/${project.key}/backlogs`
     }
 
     return (
-
         <ProjectContext.Provider value={{currentProject , changeCurrentProject, setcurrentProject}}>
             {children}
         </ProjectContext.Provider>
-
     )
 
 

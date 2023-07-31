@@ -40,7 +40,7 @@ const CraeteIssueForm = (props) => {
         :
         // IF WE ARE ADDING AN ISSUE TO  A SPRINT WE SEND SPRINT ID TO BACKEND
         postData(`http://localhost:5000/project/sprint/${currentProject._id}/${sprint._id}/addIssueToSprint` ,{issueName : issue }).then(data=>{
-            console.log(data.data.project)
+            console.log(data)
             changeCurrentProject(data.data.project)
             setissue("")
         })

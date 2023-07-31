@@ -18,6 +18,11 @@ const sprintSchema = new mongoose.Schema({
     ref: "Project",
     required: true,
   },
+  status: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
   issues: [
     {
       type: mongoose.Schema.Types.ObjectId,
