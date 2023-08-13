@@ -23,6 +23,7 @@ import {
 import Auth from '../auth/Auth';
 import Backlogs from '../Pages/Backlogs';
 import Boards from '../Pages/Boards';
+import Register from '../auth/Register';
 
 
 
@@ -91,6 +92,9 @@ const Home = () => {
       <Switch>
               <Route exact path="/login"> 
                 <Auth></Auth>
+              </Route>  
+              <Route exact path="/register"> 
+                <Register></Register>
               </Route>  
       </Switch>
       </Router>

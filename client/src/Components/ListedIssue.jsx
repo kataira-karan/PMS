@@ -29,7 +29,7 @@
 
       useEffect(() => {
         console.log(currentIssue)
-        console.log(issue)
+        console.log(issue)  
       }, [currentIssue]); 
       
     return (

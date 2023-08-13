@@ -4,9 +4,10 @@ var jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 
 const registerUser = async (req, res) => {
+  console.log("registering user");
   console.log(req.body);
-  const { name, email, password, role } = req.body;
-  if (!name || !email || !password || !role) {
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) {
     res.status(400);
     throw new Error("Field Can not be empty");
   }
@@ -27,17 +28,16 @@ const registerUser = async (req, res) => {
   const saveUser = await User.create({
     name,
     email,
-    role,
     password: hashedPassword,
   });
   if (saveUser) {
     res.status(201).json({
       success: true,
-      _id: saveUser._id,
-      name: saveUser.name,
-      email: saveUser.email,
-      role: saveUser.role,
-      token: generateToken(saveUser._id),
+      // _id: saveUser._id,
+      // name: saveUser.name,
+      // email: saveUser.email,
+      // role: saveUser.role,
+      // token: generateToken(saveUser._id),
     });
   } else {
     res.status(400).json({
@@ -52,7 +52,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
   console.log(req.body);
-  const user = await User.findOne({ email, role }).populate("projects");
+  const user = await User.findOne({ email }).populate("projects");
   if (user) {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
